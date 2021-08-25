@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+    
+  <title> HackerRank </title><meta name="description" id="meta-description" content="Join over 2 million developers in solving code challenges on HackerRank, one of the best ways to prepare for programming interviews."><meta property="og:title" id="meta-og-title" content="HackerRank"><meta property="og:image" id="meta-og-image" content="https://hrcdn.net/og/default.jpg"><meta property="og:description" id="meta-og-description" content="Join over 2 million developers in solving code challenges on HackerRank, one of the best ways to prepare for programming interviews."><meta property="og:url" content="https://www.hackerrank.com/challenges/merging-communities/problem"><meta property="og:site_name" content="HackerRank"><meta property="og:type" id="meta-og-type" content="website"><meta property="article:author" content="https://www.facebook.com/hackerrank"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@hackerrank"><meta name="twitter:url" content="https://www.hackerrank.com/challenges/merging-communities/problem"><meta name="twitter:title" id="meta-twitter-title" content="HackerRank"><meta property="fb:app_id" content="347499128655783"><meta content="authenticity_token" name="csrf-param" id="csrf-param"><meta content="vKASgn5MbTvsxLn2SXZftkOYLTv8vsHvE2AGUf24l0MMlCO+8NIjIThVssn0teG5oljOJg66ldViO5Z1dnhacg==" name="csrf-token" id="csrf-token">
+  <script src="Merging%20Communities_files/50b78854cb2e10773a00002d_002.js" async=""></script><script type="text/javascript" async="" src="Merging%20Communities_files/mixpanel-2-latest.html"></script><script type="text/javascript" async="" src="Merging%20Communities_files/ga_002.js"></script><script src="Merging%20Communities_files/50b78854cb2e10773a00002d.js" async=""></script><script type="text/javascript" async="" src="Merging%20Communities_files/mixpanel-2-latest.js"></script><script type="text/javascript" async="" src="Merging%20Communities_files/ga.js"></script><script>/*!
+ * JavaScript Cookie v2.1.3
+ * https://github.com/js-cookie/js-cookie
+ *
+ * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+ * Released under the MIT license
+ */
+;(function (factory) {
+	var registeredInModuleLoader = false;
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+		registeredInModuleLoader = true;
+	}
+	if (typeof exports === 'object') {
+		module.exports = factory();
+		registeredInModuleLoader = true;
+	}
+	if (!registeredInModuleLoader) {
+		var OldCookies = window.Cookies;
+		var api = window.Cookies = factory();
+		api.noConflict = function () {
+			window.Cookies = OldCookies;
+			return api;
+		};
+	}
+}(function () {
+	function extend () {
+		var i = 0;
+		var result = {};
+		for (; i < arguments.length; i++) {
+			var attributes = arguments[ i ];
+			for (var key in attributes) {
+				result[key] = attributes[key];
+			}
+		}
+		return result;
+	}
+
+	function init (converter) {
+		function api (key, value, attributes) {
+			var result;
+			if (typeof document === 'undefined') {
+				return;
+			}
+
+			// Write
+
+			if (arguments.length > 1) {
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+
+				if (typeof attributes.expires === 'number') {
+					var expires = new Date();
+					expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
+					attributes.expires = expires;
+				}
+
+				try {
+					result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+
+				if (!converter.write) {
+					value = encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+				} else {
+					value = converter.write(value, key);
+				}
+
+				key = encodeURIComponent(String(key));
+				key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
+				key = key.replace(/[\(\)]/g, escape);
+
+				return (document.cookie = [
+					key, '=', value,
+					attributes.expires ? '; expires=' + attributes.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+					attributes.path ? '; path=' + attributes.path : '',
+					attributes.domain ? '; domain=' + attributes.domain : '',
+					attributes.secure ? '; secure' : ''
+				].join(''));
+			}
+
+			// Read
+
+			if (!key) {
+				result = {};
+			}
+
+			// To prevent the for loop in the first place assign an empty array
+			// in case there are no cookies at all. Also prevents odd result when
+			// calling "get()"
+			var cookies = document.cookie ? document.cookie.split('; ') : [];
+			var rdecode = /(%[0-9A-Z]{2})+/g;
+			var i = 0;
+
+			for (; i < cookies.length; i++) {
+				var parts = cookies[i].split('=');
+				var cookie = parts.slice(1).join('=');
+
+				if (cookie.charAt(0) === '"') {
+					cookie = cookie.slice(1, -1);
+				}
+
+				try {
+					var name = parts[0].replace(rdecode, decodeURIComponent);
+					cookie = converter.read ?
+						converter.read(cookie, name) : converter(cookie, name) ||
+						cookie.replace(rdecode, decodeURIComponent);
+
+					if (this.json) {
+						try {
+							cookie = JSON.parse(cookie);
+						} catch (e) {}
+					}
+
+					if (key === name) {
+						result = cookie;
+						break;
+					}
+
+					if (!key) {
+						result[name] = cookie;
+					}
+				} catch (e) {}
+			}
+
+			return result;
+		}
+
+		api.set = api;
+		api.get = function (key) {
+			return api.call(api, key);
+		};
+		api.getJSON = function () {
+			return api.apply({
+				json: true
+			}, [].slice.call(arguments));
+		};
+		api.defaults = {};
+
+		api.remove = function (key, attributes) {
+			api(key, '', extend(attributes, {
+				expires: -1
+			}));
+		};
+
+		api.withConverter = init;
+
+		return api;
+	}
+
+	return init(function () {});
+}));
+</script>
+  <style>
+  .cdn-error-view {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: 9999;
+    font-family: "Whitney SSm A", "Whitney SSm B", "Avenir", "Segoe UI", "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .cdn-error-view .error-box-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 20px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .cdn-error-view .error-icon {
+    text-align: center;
+  }
+  .cdn-error-view .error-title {
+    font-size: 48px;
+    margin-top: 30px;
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+  .cdn-error-view .error-message {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .cdn-error-view .btn-wrap {
+    margin-top: 20px;
+  }
+  .cdn-error-view .btn-reload {
+    width: 300px;
+    padding: 10px;
+    border-radius: 3px;
+    border-color: #088837;
+    border-bottom-color: #007827;
+    border-width: 1px;
+    border-style: solid;
+    color : #FFF;
+    background-color: #2ec866;
+    background-image: -webkit-gradient(linear, top left, bottom left, color-stop(0, #2ec866), color-stop(1, #29b35b));
+    background-image: -webkit-linear-gradient(top, #2ec866, #29b35b);
+    background-image: linear-gradient(top, #2ec866, #29b35b);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 4px rgba(32, 138, 70, 0.3);
+    outline: none;
+  }
+</style>
+
+
+<script>
+  var cdnLoaded = false;
+
+  var checkForWorkingCDN = (function() {
+    //this two value should come from configuration
+    var cdns = ["hrcdn.net","d3keuzeb2crhkn.cloudfront.net"];
+    var cdnUrl = Cookies.get('cdn_url') || cdns[0];
+    var filePath = "https://hrcdn.net/hackerrank/assets/cdnping-94a550e38c7e3bb2d23ad2862828fc17.js";
+
+    //extract pathname from url
+    var urlRegex = /^[^#]*?:\/\/.*?(\/.*)$/ ;
+    var match = filePath.match(urlRegex);
+    if(match) filePath = match[1];
+
+    //add current cdn on first of array
+    cdns.splice(cdns.indexOf(cdnUrl), 1);
+    cdns.unshift(cdnUrl);
+
+    var cdnIndx = 0;
+
+    function tryCurrentCDN() {
+      if (cdnUrl) document.write('<script src="https://' + cdnUrl + filePath + '?' + Date.now() + '"><\/script>');
+      document.write('<script>checkForWorkingCDN();<\/script>');
+    }
+
+    //try the current cdn
+    tryCurrentCDN();
+
+    return function() {
+      if (cdnUrl && cdnLoaded) {
+        Cookies.set('cdn_url', cdnUrl, {expires: 3});
+        Cookies.set('cdn_set', 'true', {expires: 3});
+        if (cdnIndx !== 0) {
+          document.location.reload();
+        }
+
+        //if cdnUrl not loaded check the next cdn;
+      } else if (cdnUrl) {
+        //track all the failed cdn
+        var failedCdns = Cookies.get('failed_cdn_hosts');
+        if (failedCdns) {
+          failedCdns = JSON.parse(failedCdns);
+        } else {
+          failedCdns = [];
+        }
+
+        failedCdns.push(cdnUrl);
+        var fifteenMinuteFromNow = new Date();
+        fifteenMinuteFromNow.setMinutes(15);
+        Cookies.set('failed_cdn_hosts', JSON.stringify(failedCdns), {expires: fifteenMinuteFromNow});
+        Cookies.set("cdn_url_switched", "true", {expires: fifteenMinuteFromNow});
+
+        //try next cdn
+        cdnIndx += 1;
+        cdnUrl = cdns[cdnIndx];
+        tryCurrentCDN();
+
+        //if no cdn left to check and none of loaded return err
+      } else {
+        Cookies.remove('cdn_url');
+        return 'cdnerror';
+      }
+    }
+  }());
+</script><script src="Merging%20Communities_files/cdnping-94a550e38c7e3bb2d23ad2862828fc17.js"></script><script>checkForWorkingCDN();</script><script src="Merging%20Communities_files/cdnping-94a550e38c7e3bb2d23ad2862828fc17_002.js"></script><script>checkForWorkingCDN();</script>
+
+<script>
+  //track cdn related matrices
+  (function() {
+    var allCdns = ["hrcdn.net","d3keuzeb2crhkn.cloudfront.net"];
+
+    var metrics = [];
+    var defaultCdn = Cookies.get('default_cdn_url');
+
+    //method to track the events
+    function appTrack(key, attrs) {
+      attrs = attrs || {};
+      attrs.uid = Cookies.get('hackerrank_mixpanel_token')
+      metrics.push({
+        'key': key,
+        'meta_data': attrs
+      });
+    }
+
+    function sendMetrices() {
+      if (!XMLHttpRequest) return;
+      var xhr = new XMLHttpRequest();
+      var metrics_endpoint = 'https://metrics.hackerrank.com/app_metrics'; // Todo : this need to move on configuration
+
+      if (!xhr) return;
+
+      xhr.open("POST", metrics_endpoint, true);
+
+      //set xhr headers and options
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.withCredentials = true;
+
+      xhr.send(JSON.stringify({
+        data: metrics,
+        default_cdn_url: defaultCdn,
+        document_referrer: document.referrer
+      }));
+    }
+
+    var cdnUrl = Cookies.get('cdn_url');
+    var failedCdns = Cookies.get('failed_cdn_hosts');
+
+    var cdnMetrices = {};
+
+    //track used cdn host
+    if (cdnUrl) {
+      cdnMetrices['used-cdn'] = cdnUrl;
+      cdnMetrices['cdn-index'] = allCdns.indexOf(cdnUrl) + 1;
+      cdnMetrices['all-failed'] = false;
+    //track if all cdn failed (If cdnUrl is not set it means all cdn url failed)
+    } else {
+      cdnMetrices['used-cdn'] = '';
+      cdnMetrices['cdn-index'] = 999;
+      cdnMetrices['all-failed'] = true;
+    }
+
+    appTrack('cdn-metrices', cdnMetrices);
+
+    //track failed cdn
+    if (failedCdns) {
+      failedCdns = JSON.parse(failedCdns);
+      Cookies.remove('failed_cdn_hosts');
+      failedCdns.forEach(function(cdn) {
+        appTrack('failed-cdn-host', {
+          cdn: cdn
+        });
+      });
+    }
+
+    //send metrics
+    sendMetrices();
+
+  }());
+</script>
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="dns-prefetch" href="https://hrcdn.net/">
+  <link rel="dns-prefetch" href="https://d3keuzeb2crhkn.cloudfront.net/">
+  <link rel="dns-prefetch" href="https://notifications.hackerrank.com/">
+  <link rel="dns-prefetch" href="https://api.mixpanel.com/">
+  <link rel="dns-prefetch" href="https://heapanalytics.com/">
+  <link rel="dns-prefetch" href="https://metrics.hackerrank.com/">
+
+  <!-- Load promise polyfill for the non-believers -->
+  <script>
+    window.Promise || document.write('<script src="https://hrcdn.net/hackerrank/assets/promise-polyfill/promise.min-7f924d1ab9d470d3d64d4a1e3bd1a2be.js" type="text\/javascript"><\/script>');
+  </script>
+
+  <!-- Prefetch old assets -->
+  
+    <link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/hackerrank-48073c28302a760c389b2c02ef1954d6.js">
+  
+    <link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/base-f01b4aa39c248654bed4948c02a01f6b.js">
+  
+    <link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/hackerrank_libraries-b560f5f36a269d2820cefaec1b6706cc.js">
+  
+<!-- Prefetch old assets end-->
+
+<!-- preload scripts required on the same page -->
+  
+    <link rel="preload" as="script" href="Merging%20Communities_files/hackerrank_r_community-c38e5ae53955c6b8a5e1_002.js">
+  
+    <link rel="preload" as="script" href="Merging%20Communities_files/hackerrank_r_challenge-6cf43813f481688b1d66.js">
+  
+<!-- preload scripts end -->
+
+<link href="Merging%20Communities_files/hackerrank_libraries-b9d818d09dac5a02e22ba53622ae0db4.css" media="all" rel="stylesheet"><link rel="stylesheet" href="Merging%20Communities_files/hackerrank_libraries-b9d818d09dac5a02e22ba53622ae0db4.css">
+
+<link href="Merging%20Communities_files/hackerrank-core-3188659a0dfc2bfe8f31a9b7fb8acaa8.css" media="all" rel="stylesheet">
+
+
+  <link href="Merging%20Communities_files/dashboard-d5be922e6d6b7b974c0fb3de032b0ee8.css" media="all" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="Merging%20Communities_files/hackerrank_r_app-b5d2539c36.css">
+<link rel="stylesheet" href="Merging%20Communities_files/hackerrank_r_community-fdeea7d00d.css">
+
+
+        <style>
+          html.scroll-hidden,html.scroll-hidden body{
+              overflow: hidden;
+              height:100vh;
+          }
+          html.scroll-hidden.pad-adjustment body{
+              padding-right : 17px;
+          }
+          html.scroll-hidden.pad-adjustment .fixed-elm{
+              padding-right : 17px;
+          }
+        </style>
+    <script type="text/javascript" charset="utf-8" async="" src="Merging%20Communities_files/hackerrank_r_community-c38e5ae53955c6b8a5e1_002.js"></script><link rel="prefetch" href="Merging%20Communities_files/hackerrank_r_challenge-6cf43813f481688b1d66.js"><link rel="prefetch" href="Merging%20Communities_files/hackerrank_r_codeshell_lib-192438dbaf4837e1e44c.js"><link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/hackerrank_r_jobs-e99886443fc6bc610f57.js"><link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/hackerrank_r_profile-79137ba4cbed64f38f2d.js"><link rel="prefetch" href="https://hrcdn.net/hackerrank/assets/hackerrank_r_calendar-64a6b9027974c9be10a6.js"><link rel="prefetch" href="Merging%20Communities_files/hackerrank_r_keyboardjs-507f9cd4855b5f099e97.js"><script type="text/javascript" charset="utf-8" async="" src="Merging%20Communities_files/hackerrank_r_challenge-6cf43813f481688b1d66.js"></script><title>&lt;!--
+ react-text: 3 --&gt; &lt;!-- /react-text --&gt;&lt;!-- react-text: 4 
+--&gt;HackerRank&lt;!-- /react-text --&gt;&lt;!-- react-text: 5 --&gt; 
+&lt;!-- /react-text --&gt;</title><style id="react-tooltip">.__react_component_tooltip{border-radius:3px;display:inline-block;font-size:13px;left:-999em;opacity:0;padding:8px 21px;position:fixed;pointer-events:none;transition:opacity 0.3s ease-out;top:-999em;visibility:hidden;z-index:999}.__react_component_tooltip:before,.__react_component_tooltip:after{content:"";width:0;height:0;position:absolute}.__react_component_tooltip.show{opacity:0.9;margin-top:0px;margin-left:0px;visibility:visible}.__react_component_tooltip.type-dark{color:#fff;background-color:#222}.__react_component_tooltip.type-dark.place-top:after{border-top-color:#222;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-dark.place-bottom:after{border-bottom-color:#222;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-dark.place-left:after{border-left-color:#222;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-dark.place-right:after{border-right-color:#222;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-dark.border{border:1px solid #fff}.__react_component_tooltip.type-dark.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-dark.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-dark.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-dark.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-success{color:#fff;background-color:#8DC572}.__react_component_tooltip.type-success.place-top:after{border-top-color:#8DC572;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-success.place-bottom:after{border-bottom-color:#8DC572;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-success.place-left:after{border-left-color:#8DC572;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-success.place-right:after{border-right-color:#8DC572;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-success.border{border:1px solid #fff}.__react_component_tooltip.type-success.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-success.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-success.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-success.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-warning{color:#fff;background-color:#F0AD4E}.__react_component_tooltip.type-warning.place-top:after{border-top-color:#F0AD4E;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-warning.place-bottom:after{border-bottom-color:#F0AD4E;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-warning.place-left:after{border-left-color:#F0AD4E;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-warning.place-right:after{border-right-color:#F0AD4E;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-warning.border{border:1px solid #fff}.__react_component_tooltip.type-warning.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-warning.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-warning.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-warning.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-error{color:#fff;background-color:#BE6464}.__react_component_tooltip.type-error.place-top:after{border-top-color:#BE6464;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-error.place-bottom:after{border-bottom-color:#BE6464;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-error.place-left:after{border-left-color:#BE6464;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-error.place-right:after{border-right-color:#BE6464;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-error.border{border:1px solid #fff}.__react_component_tooltip.type-error.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-error.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-error.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-error.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-info{color:#fff;background-color:#337AB7}.__react_component_tooltip.type-info.place-top:after{border-top-color:#337AB7;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-info.place-bottom:after{border-bottom-color:#337AB7;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-info.place-left:after{border-left-color:#337AB7;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-info.place-right:after{border-right-color:#337AB7;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-info.border{border:1px solid #fff}.__react_component_tooltip.type-info.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-info.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-info.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-info.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-light{color:#222;background-color:#fff}.__react_component_tooltip.type-light.place-top:after{border-top-color:#fff;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-light.place-bottom:after{border-bottom-color:#fff;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-light.place-left:after{border-left-color:#fff;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-light.place-right:after{border-right-color:#fff;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-light.border{border:1px solid #222}.__react_component_tooltip.type-light.border.place-top:before{border-top:8px solid #222}.__react_component_tooltip.type-light.border.place-bottom:before{border-bottom:8px solid #222}.__react_component_tooltip.type-light.border.place-left:before{border-left:8px solid #222}.__react_component_tooltip.type-light.border.place-right:before{border-right:8px solid #222}.__react_component_tooltip.place-top{margin-top:-10px}.__react_component_tooltip.place-top:before{border-left:10px solid transparent;border-right:10px solid transparent;bottom:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-top:after{border-left:8px solid transparent;border-right:8px solid transparent;bottom:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-bottom{margin-top:10px}.__react_component_tooltip.place-bottom:before{border-left:10px solid transparent;border-right:10px solid transparent;top:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-bottom:after{border-left:8px solid transparent;border-right:8px solid transparent;top:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-left{margin-left:-10px}.__react_component_tooltip.place-left:before{border-top:6px solid transparent;border-bottom:6px solid transparent;right:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-left:after{border-top:5px solid transparent;border-bottom:5px solid transparent;right:-6px;top:50%;margin-top:-4px}.__react_component_tooltip.place-right{margin-left:10px}.__react_component_tooltip.place-right:before{border-top:6px solid transparent;border-bottom:6px solid transparent;left:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-right:after{border-top:5px solid transparent;border-bottom:5px solid transparent;left:-6px;top:50%;margin-top:-4px}.__react_component_tooltip .multi-line{display:block;padding:2px 0px;text-align:center}</style><script type="text/javascript" charset="utf-8" async="" src="Merging%20Communities_files/hackerrank_r_codeshell_lib-192438dbaf4837e1e44c.js"></script><script type="text/javascript" charset="utf-8" async="" src="Merging%20Communities_files/hackerrank_r_keyboardjs-507f9cd4855b5f099e97.js"></script><script src="Merging%20Communities_files/codemirror_basic-7827c39e773fb3d47d7214c3e62d6e6f.js" async=""></script><script src="Merging%20Communities_files/clike-743fbc5ad3abf5b8de1b96a1074c202e.js" async=""></script>
+        <style>
+          html.scroll-hidden,html.scroll-hidden body{
+              overflow: hidden;
+              height:100vh;
+          }
+          html.scroll-hidden.pad-adjustment body{
+              padding-right : 12px;
+          }
+          html.scroll-hidden.pad-adjustment .fixed-elm{
+              padding-right : 12px;
+          }
+        </style>
+    <script type="text/javascript" charset="utf-8" async="" src="Merging%20Communities_files/hackerrank_r_community-c38e5ae53955c6b8a5e1.js"></script></head>
+<body id="hr_v2">
+  <div class="cdn-error-view" style="display:none;">
+  <div class="error-box-wrap">
+    <div class="error-icon">
+      <svg x="0px" y="0px" width="80px" height="80px" viewBox="0 0 367.011 367.01" style="enable-background:new 0 0 367.011 367.01;" xml:space="preserve">
+        <g>
+         <g>
+          <path d="M365.221,329.641L190.943,27.788c-1.542-2.674-4.395-4.318-7.479-4.318c-3.084,0-5.938,1.645-7.48,4.318L1.157,330.584    c-1.543,2.674-1.543,5.965,0,8.639c1.542,2.674,4.395,4.318,7.48,4.318h349.65c0.028,0,0.057,0,0.086,0    c4.77,0,8.638-3.863,8.638-8.639C367.011,332.92,366.342,331.1,365.221,329.641z M23.599,326.266L183.464,49.381l159.864,276.885    H23.599z"></path>
+          <path d="M174.826,136.801v123.893c0,4.773,3.867,8.638,8.638,8.638c4.77,0,8.637-3.863,8.637-8.638V136.801    c0-4.766-3.867-8.637-8.637-8.637C178.693,128.165,174.826,132.036,174.826,136.801z"></path>
+          <path d="M183.464,279.393c-5.922,0-10.725,4.8-10.725,10.722s4.803,10.729,10.725,10.729c5.921,0,10.725-4.809,10.725-10.729    C194.189,284.193,189.386,279.393,183.464,279.393z"></path>
+         </g>
+        </g>
+      </svg>
+    </div>
+    <h2 class="error-title">Something went wrong!</h2>
+    <p class="error-message">Some error occured while loading page for you. Please try again.</p>
+    <div class="btn-wrap">
+      <a href="#" onclick="window.location.reload(true);"><button class="btn-reload">Reload</button></a>
+    </div>
+  </div>
+</div>
+<script>
+  if(typeof cdnLoaded !== 'undefined' && cdnLoaded === false){
+    document.querySelector('.cdn-error-view').style.display = 'block';
+  }
+</script>
+
+  <div id="fb-root"></div>
+  
+  <div id="content" onclick="void(0);"><div class="body-wrap  community-page challenges-page problem-page" data-reactroot="" data-reactid="1" data-react-checksum="944738307"><!-- react-empty: 2 --><div class="component-wrapper" data-reactid="3"><!-- react-empty: 4 --><div data-reactid="5"><div class="page-header-wrapper" data-reactid="6"><nav class="page-header" data-reactid="7"><div class="container" data-reactid="8"><div class="nav-links header-nav-links" data-reactid="9"><ul class="pull-left nav-links-active" data-reactid="10"><li data-reactid="11"><a class="nav_link backbone logo_mark js_logo_mark" data-analytics="NavBarLogo" href="https://www.hackerrank.com/dashboard" data-reactid="12"><img id="feed-intro" src="Merging%20Communities_files/h_mark_sm-2b74ffcaf85d7091a6301c30d6c411c5.svg" alt="" data-reactid="13"></a></li><li data-reactid="14"><a class="nav_link backbone domains" data-analytics="NavBarDomains" href="https://www.hackerrank.com/dashboard" data-reactid="15"><i class="icon-home" data-reactid="16"></i><span data-reactid="17">Practice</span></a></li><li data-reactid="18"><a class="nav_link backbone contests" data-analytics="NavBarContests" href="https://www.hackerrank.com/contests" data-reactid="19"><i class="icon-clock" data-reactid="20"></i><span data-reactid="21">Compete</span></a></li><li data-reactid="22"><a class="nav_link backbone" data-analytics="NavBarJobs" href="https://www.hackerrank.com/jobs" data-reactid="23"><i class="icon-briefcase" data-reactid="24"></i><span data-reactid="25">Jobs</span><i class="icon-circle js-jobs-notification navigation-highlight-icon hidden" data-reactid="26"></i></a></li><li data-reactid="27"><a class="nav_link backbone" data-analytics="NavBarMyRank" id="myrank-nav-link" href="https://www.hackerrank.com/rank" data-reactid="28"><i class="icon-award" data-reactid="29"></i><span data-reactid="30">Rank</span></a></li><li data-reactid="31"><a class="nav_link backbone" data-analytics="NavBarLeaderboard" id="leaderboard-nav-link" href="https://www.hackerrank.com/leaderboard" data-reactid="32"><i class="icon-trophy" data-reactid="33"></i><span data-reactid="34">Leaderboard</span></a></li></ul></div><div class="nav-buttons" data-reactid="35"><ul class="pull-left psR" data-reactid="36"><li class="hide-in-private-contest search-input-container input-icon main-hr-search" id="search-span" data-reactid="37"><div class="search_form" data-reactid="38"><div class="hide-in-private-contest search-input input-icon" data-reactid="39"><div class="search-query asyn-autocomplete autocomplete" data-reactid="40"><div class="ac-input-wrap cf" data-reactid="41"><input autocomplete="off" class="ac-input " data-reactid="42"></div></div><i class="icon-search" data-reactid="43"></i></div></div></li></ul><ul class="pull-left nav-wrap mmL" data-reactid="44"><li class="hide-in-private-contest button-item" data-reactid="45"><div class="dropdown notify_dropdown dropdown" data-reactid="46"><a class="cursor backbone nav_link hr_nav_messages_link js-dropdown-toggle js-link" data-analytics="NavBarMessageIcon" data-reactid="47"><i class="icon-chat icon--single" data-reactid="48"></i></a><div class="dropdown-menu large" data-reactid="49"><header class="psT psB text-center" data-reactid="50"><strong data-reactid="51">Messages</strong></header><div id="notify_messages" class="dropdown-body" data-reactid="52"><div class="hr_nav_messages_list" data-reactid="53"><div class="no-propagation text-center txt-navy" style="padding:30px 0;font-size:16px;" data-reactid="54">You have no unread messages.</div></div></div><footer class="final text-center" data-reactid="55"><a class="btn backbone" href="https://www.hackerrank.com/inbox" data-analytics="NavBarMessageShowAll" data-reactid="56">Show All</a></footer></div></div></li><li class="button-item" data-reactid="57"><div class="dropdown dropdown notify_dropdown" data-reactid="58"><a class="cursor backbone nav_link hr_nav_notifications_link js-dropdown-toggle js-link" data-toggle="dropdown" data-analytics="NavBarNotificationsIcon" data-reactid="59"><i class="icon-megaphone icon--single" data-reactid="60"></i><span class="indicator number-indicator hr_notifications_count">1</span></a><div class="dropdown-menu large" id="notify_broadcasts" data-reactid="61"><header class="psA" data-reactid="62"><strong data-reactid="63">Notifications</strong><a class="hr_archive_all pull-right js-link" data-analytics="NavBarNotificationsArchiveAll" data-reactid="64"><i class="icon-folder-open" data-reactid="65"></i><!-- react-text: 66 -->Archive All<!-- /react-text --></a></header><div class="clearfix dropdown-body" data-reactid="67"><div class="hr_nav_notifications_list"><ul><li class="notify_item" data-id="50028705" data-category="contest-announcements" data-url="/domains/tutorials/30-days-of-code"><div class="notification-icon"><img src="Merging%20Communities_files/notifymarker.png"></div><div class="notification-subject pmT"><div class="psA"><div>Improve your coding skills. Join our 30 Days of Code challenge!</div><small class="meta"><time datetime="2017-11-06T14:44:29.000Z" title="2017-11-06 14:44">30 minutes ago</time></small></div></div></li></ul></div></div><footer class="final" data-reactid="71"><a class="btn backbone" href="https://www.hackerrank.com/notifications" data-analytics="NavBarNotificationsShowAll" data-reactid="72">Show All</a></footer></div></div></li><li class="button-item" data-reactid="73"><div class="dropdown dropdown dropdown-auth profile-menu" data-reactid="74"><a class="backbone nav_link js-dropdown-toggle js-link" href="" data-analytics="NavBarProfileDropDown" data-reactid="75"><img src="Merging%20Communities_files/gravatar.jpg" alt="" class="avatar" data-reactid="76"><span class="mmR username text-ellipsis" data-reactid="77">arielplasencia00</span><i class="icon-down-open" data-reactid="78"></i></a><div class="dropdown-menu drop-list pull-right" data-reactid="79"><ul data-reactid="80"><li class="hide-in-private-contest" data-reactid="81"><a class="navigation_hackos backbone" href="https://www.hackerrank.com/arielplasencia00/hackos" data-analytics="NavBarProfileDropDownHackos" data-reactid="82"><!-- react-text: 83 -->Hackos: <!-- /react-text --><span class="navigation_hackos-count" data-reactid="84">101</span></a></li><li class="hide-in-private-contest" data-reactid="85"><a class="backbone" rel="tooltip" data-placement="left" data-analytics="NavBarProfileDropDownProfile" href="https://www.hackerrank.com/arielplasencia00" data-reactid="86"><!-- react-text: 87 -->Profile<!-- /react-text --><span class="progress-wrapper" data-reactid="88"><span class="progress-bar" style="width:30%;" data-reactid="89"></span></span></a></li><li class="hide-in-private-contest" data-reactid="90"><a class="backbone" href="https://www.hackerrank.com/settings" data-analytics="NavBarProfileDropDownSettings" data-reactid="91">Settings</a></li><li class="hide-in-private-contest" data-reactid="92"><a class="backbone" href="https://www.hackerrank.com/network" data-analytics="NavBarProfileDropDownNetwork" data-reactid="93">Network</a></li><li class="hide-in-private-contest" data-reactid="94"><a class="backbone" href="https://www.hackerrank.com/submissions" data-analytics="NavBarProfileDropDownSubmissions" data-reactid="95">Submissions</a></li><li class="hide-in-private-contest" data-reactid="96"><a class="backbone" href="https://www.hackerrank.com/administration" data-analytics="NavBarProfileDropDownAdministration" data-reactid="97">Administration</a></li><li data-reactid="98"><a class="logout-button js-link" data-analytics="NavBarProfileDropDownLogout" data-reactid="99">Logout</a></li></ul></div></div></li></ul></div></div></nav></div><!-- react-empty: 100 --><div id="breadcrumb" data-reactid="101"><div class="content-header b4" data-reactid="102"><div class="container pjL" data-reactid="103"><div class="clearfix" data-reactid="104"><ol itemtype="http://schema.org/BreadcrumbList" class="pull-left mdT msB pjT bcrumb" data-reactid="105"><li itemprop="itemListElement" itemtype="http://schema.org/ListItem" data-reactid="106"><a itemprop="item" class="backbone" data-analytics="Breadcrumb" data-attr1="Dashboard" data-attr2="global" data-attr7="1" href="https://www.hackerrank.com/dashboard" data-reactid="107"><span itemprop="name" data-reactid="108">Dashboard</span></a><meta itemprop="position" content="1" data-reactid="109"></li><li itemprop="itemListElement" itemtype="http://schema.org/ListItem" data-reactid="110"><i class="icon-right-open mmL" data-reactid="111"></i><a itemprop="item" class="backbone" data-analytics="Breadcrumb" data-attr1="Data Structures" data-attr2="global" data-attr7="1" href="https://www.hackerrank.com/domains/data-structures" data-reactid="112"><span itemprop="name" data-reactid="113">Data Structures</span></a><meta itemprop="position" content="1" data-reactid="114"></li><li itemprop="itemListElement" itemtype="http://schema.org/ListItem" data-reactid="115"><i class="icon-right-open mmL" data-reactid="116"></i><a itemprop="item" class="backbone" data-analytics="Breadcrumb" data-attr1="Disjoint Set" data-attr2="global" data-attr7="1" href="https://www.hackerrank.com/domains/data-structures/disjoint-set" data-reactid="117"><span itemprop="name" data-reactid="118">Disjoint Set</span></a><meta itemprop="position" content="1" data-reactid="119"></li><li itemprop="itemListElement" itemtype="http://schema.org/ListItem" data-reactid="120"><i class="icon-right-open mmL" data-reactid="121"></i><a itemprop="item" class="backbone" data-analytics="Breadcrumb" data-attr1="Merging Communities " data-attr2="global" data-attr7="1" href="https://www.hackerrank.com/challenges/merging-communities" data-reactid="122"><span itemprop="name" data-reactid="123">Merging Communities </span></a><meta itemprop="position" content="1" data-reactid="124"></li></ol><div class="social-share-view-wrap social-buttons mjT pull-right" data-reactid="125"><a class="social-btn cursor facebook-share-btn txt-white" data-reactid="126"><i class="icon-facebook" data-reactid="127"></i></a><a class="social-btn cursor twitter-share-btn txt-white txt-white" data-reactid="128"><i class="icon-twitter" data-reactid="129"></i></a><a class="social-btn cursor linkedin-share-btn txt-white" data-reactid="130"><i class="icon-linkedin" data-reactid="131"></i></a></div></div></div></div></div><div class="container" data-reactid="132"></div><div class="challenge-view" data-reactid="133"><div class="challenge-header" data-reactid="134"><!-- react-empty: 135 --><div class="container" data-reactid="136"><div class="mdT mmB span10" data-reactid="137"><div class="clearfix" data-reactid="138"><h2 class="hr_tour-challenge-name pull-left mlT" data-reactid="139"><!-- react-text: 140 -->Merging Communities <!-- /react-text --><i class="icon-bookmark js-bookmark xxsmall txt-grey" data-reactid="141"></i></h2></div><div class="clearfix mlB mmT" data-reactid="142"><img src="Merging%20Communities_files/150x150.png" class="avatar pull-left" data-reactid="143" width="25" height="25"><span class="small bold" data-reactid="144"><!-- react-text: 145 -->by <!-- /react-text --><a class="backbone color-blue" href="https://www.hackerrank.com/amititkgp" data-analytics="ChallengeViewHeaderAuthor" data-attr1="merging-communities" data-attr2="amititkgp" data-reactid="146">amititkgp</a></span></div></div></div><div class="container" data-reactid="147"><ul class="nav-tabs nav mlT" data-reactid="148"><li id="problemTab" class="active" data-reactid="149"><a class="hr-problem-link" data-analytics="ChallengeViewTab" data-attr1="/challenges/merging-communities/problem" data-attr2="Problem" href="https://www.hackerrank.com/challenges/merging-communities/problem" data-reactid="150">Problem</a></li><li id="submissionsTab" class="" data-reactid="151"><a class="hr-submissions-link" data-analytics="ChallengeViewTab" data-attr1="/challenges/merging-communities/submissions" data-attr2="Submissions" href="https://www.hackerrank.com/challenges/merging-communities/submissions" data-reactid="152">Submissions</a></li><li id="leaderboardTab" class="" data-reactid="153"><a class="hr-leaderboard-link" data-analytics="ChallengeViewTab" data-attr1="/challenges/merging-communities/leaderboard" data-attr2="Leaderboard" href="https://www.hackerrank.com/challenges/merging-communities/leaderboard" data-reactid="154">Leaderboard</a></li><li id="forumTab" class="" data-reactid="155"><a class="hr-forum-link" data-analytics="ChallengeViewTab" data-attr1="/challenges/merging-communities/forum" data-attr2="Discussions" href="https://www.hackerrank.com/challenges/merging-communities/forum" data-reactid="156">Discussions</a></li><li id="editorialTab" class="" data-reactid="157"><a class="hr-editorial-link" data-analytics="ChallengeViewTab" data-attr1="/challenges/merging-communities/editorial" data-attr2="Editorial" href="https://www.hackerrank.com/challenges/merging-communities/editorial" data-reactid="158"><!-- react-text: 159 -->Editorial <!-- /react-text --><i class="icon-lock" data-reactid="160"></i></a></li></ul></div></div><section class="challenge-interface challenge-problem" data-reactid="161"><div class="challenge-body" data-reactid="162"><div class="challenge-body-elements-problem challenge-container-element" data-reactid="163"><div class="challenge-split split-wrap" data-reactid="164"><div class="left-pane split" data-reactid="165"><div class="challenge-content" data-reactid="166"><div class="container fs-container" data-reactid="167"><div class="row" data-reactid="168"><div class="span-sm-11 hr_tour-problem-statement problem-statement have-external-links" data-reactid="169"><div class="content-text challenge-text mlB" data-reactid="170"><div class="challenge_problem_statement"><div class="msB challenge_problem_statement_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><p>People connect with each other in a social network. A connection between Person <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-1-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.172ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 504.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M43 1Q26 1 26 10Q26 12 29 24Q34 43 39 45Q42 46 54 46H60Q120 46 136 53Q137 53 138 54Q143 56 149 77T198 273Q210 318 216 344Q286 624 286 626Q284 630 284 631Q274 637 213 637H193Q184 643 189 662Q193 677 195 680T209 683H213Q285 681 359 681Q481 681 487 683H497Q504 676 504 672T501 655T494 639Q491 637 471 637Q440 637 407 634Q393 631 388 623Q381 609 337 432Q326 385 315 341Q245 65 245 59Q245 52 255 50T307 46H339Q345 38 345 37T342 19Q338 6 332 0H316Q279 2 179 2Q143 2 113 2T65 2T43 1Z"></path></g></svg></span> and Person <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-2-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.471ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 633.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M447 625Q447 637 354 637H329Q323 642 323 645T325 664Q329 677 335 683H352Q393 681 498 681Q541 681 568 681T605 682T619 682Q633 682 633 672Q633 670 630 658Q626 642 623 640T604 637Q552 637 545 623Q541 610 483 376Q420 128 419 127Q397 64 333 21T195 -22Q137 -22 97 8T57 88Q57 130 80 152T132 174Q177 174 182 130Q182 98 164 80T123 56Q115 54 115 53T122 44Q148 15 197 15Q235 15 271 47T324 130Q328 142 387 380T447 625Z"></path></g></svg></span> is represented as <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-3-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="5.327ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 2293.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M132 622Q125 629 121 631T105 634T62 637H29V683H135Q221 683 232 682T249 675Q250 674 354 398L458 124L562 398Q666 674 668 675Q671 681 683 682T781 683H887V637H854Q814 636 803 634T785 622V61Q791 51 802 49T854 46H887V0H876Q855 3 736 3Q605 3 596 0H585V46H618Q660 47 669 49T688 61V347Q688 424 688 461T688 546T688 613L687 632Q454 14 450 7Q446 1 430 1T410 7Q409 9 292 316L176 624V606Q175 588 175 543T175 463T175 356L176 86Q187 50 261 46H278V0H269Q254 3 154 3Q52 3 37 0H29V46H46Q78 48 98 56T122 69T132 86V622Z"></path><path stroke-width="1" d="M328 0Q307 3 180 3T32 0H21V46H43Q92 46 106 49T126 60Q128 63 128 342Q128 620 126 623Q122 628 118 630T96 635T43 637H21V683H32Q53 680 180 680T328 683H339V637H317Q268 637 254 634T234 623Q232 620 232 342Q232 63 234 60Q238 55 242 53T264 48T317 46H339V0H328Z" transform="translate(1167,0)"></path><path stroke-width="1" d="M89 177Q115 177 133 160T152 112Q152 88 137 72T102 52Q99 51 101 49Q106 43 129 29Q159 15 190 15Q232 15 256 48T286 126Q286 127 286 142T286 183T286 238T287 306T287 378Q287 403 287 429T287 479T287 524T286 563T286 593T286 614V621Q281 630 263 633T182 637H154V683H166Q187 680 332 680Q439 680 457 683H465V637H449Q422 637 401 634Q393 631 389 623Q388 621 388 376T387 123Q377 61 322 20T194 -22Q188 -22 177 -21T160 -20Q96 -9 61 29T25 110Q25 144 44 160T89 177Z" transform="translate(1779,0)"></path></g></svg></span>. When two persons belonging to different communities connect, the net effect is the merger of both communities which <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-4-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.172ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 504.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M43 1Q26 1 26 10Q26 12 29 24Q34 43 39 45Q42 46 54 46H60Q120 46 136 53Q137 53 138 54Q143 56 149 77T198 273Q210 318 216 344Q286 624 286 626Q284 630 284 631Q274 637 213 637H193Q184 643 189 662Q193 677 195 680T209 683H213Q285 681 359 681Q481 681 487 683H497Q504 676 504 672T501 655T494 639Q491 637 471 637Q440 637 407 634Q393 631 388 623Q381 609 337 432Q326 385 315 341Q245 65 245 59Q245 52 255 50T307 46H339Q345 38 345 37T342 19Q338 6 332 0H316Q279 2 179 2Q143 2 113 2T65 2T43 1Z"></path></g></svg></span> and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-5-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.471ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 633.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M447 625Q447 637 354 637H329Q323 642 323 645T325 664Q329 677 335 683H352Q393 681 498 681Q541 681 568 681T605 682T619 682Q633 682 633 672Q633 670 630 658Q626 642 623 640T604 637Q552 637 545 623Q541 610 483 376Q420 128 419 127Q397 64 333 21T195 -22Q137 -22 97 8T57 88Q57 130 80 152T132 174Q177 174 182 130Q182 98 164 80T123 56Q115 54 115 53T122 44Q148 15 197 15Q235 15 271 47T324 130Q328 142 387 380T447 625Z"></path></g></svg></span> belongs to. </p>
+
+<p>At the beginning, there are <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-6-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="2.064ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 888.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></g></svg></span> people representing <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-7-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="2.064ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 888.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></g></svg></span> communities. Suppose person <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-8-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></svg></span> and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-9-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></svg></span> connected and later <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-10-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></svg></span> and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-11-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></svg></span> connected, then <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-12-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></svg></span>,<span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-13-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></svg></span>, and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-14-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></svg></span> will belong to the same community.</p>
+
+<p>There are two type of queries:</p>
+
+<ol>
+<li><p><span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-15-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="11.068ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 4765.3 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M132 622Q125 629 121 631T105 634T62 637H29V683H135Q221 683 232 682T249 675Q250 674 354 398L458 124L562 398Q666 674 668 675Q671 681 683 682T781 683H887V637H854Q814 636 803 634T785 622V61Q791 51 802 49T854 46H887V0H876Q855 3 736 3Q605 3 596 0H585V46H618Q660 47 669 49T688 61V347Q688 424 688 461T688 546T688 613L687 632Q454 14 450 7Q446 1 430 1T410 7Q409 9 292 316L176 624V606Q175 588 175 543T175 463T175 356L176 86Q187 50 261 46H278V0H269Q254 3 154 3Q52 3 37 0H29V46H46Q78 48 98 56T122 69T132 86V622Z"></path><path stroke-width="1" d="M328 0Q307 3 180 3T32 0H21V46H43Q92 46 106 49T126 60Q128 63 128 342Q128 620 126 623Q122 628 118 630T96 635T43 637H21V683H32Q53 680 180 680T328 683H339V637H317Q268 637 254 634T234 623Q232 620 232 342Q232 63 234 60Q238 55 242 53T264 48T317 46H339V0H328Z" transform="translate(1167,0)"></path><path stroke-width="1" d="M89 177Q115 177 133 160T152 112Q152 88 137 72T102 52Q99 51 101 49Q106 43 129 29Q159 15 190 15Q232 15 256 48T286 126Q286 127 286 142T286 183T286 238T287 306T287 378Q287 403 287 429T287 479T287 524T286 563T286 593T286 614V621Q281 630 263 633T182 637H154V683H166Q187 680 332 680Q439 680 457 683H465V637H449Q422 637 401 634Q393 631 389 623Q388 621 388 376T387 123Q377 61 322 20T194 -22Q188 -22 177 -21T160 -20Q96 -9 61 29T25 110Q25 144 44 160T89 177Z" transform="translate(1779,0)"></path><g transform="translate(2849,0)"><path stroke-width="1" d="M1218 514Q1218 525 1234 525Q1239 525 1242 525T1247 525T1251 524T1253 523T1255 520T1257 517T1260 512Q1297 438 1358 381T1469 300T1565 263Q1582 258 1582 250T1573 239T1536 228T1478 204Q1334 134 1260 -12Q1256 -21 1253 -22T1238 -24Q1218 -24 1218 -17Q1218 -13 1223 0Q1258 69 1309 123L1319 133H70Q56 140 56 153Q56 168 72 173H1363L1373 181Q1412 211 1490 250Q1489 251 1472 259T1427 283T1373 319L1363 327H710L707 328L390 327H72Q56 332 56 347Q56 360 70 367H1319L1309 377Q1276 412 1247 458T1218 514Z"></path></g></g></svg></span> communities containing person <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-16-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.172ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 504.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M43 1Q26 1 26 10Q26 12 29 24Q34 43 39 45Q42 46 54 46H60Q120 46 136 53Q137 53 138 54Q143 56 149 77T198 273Q210 318 216 344Q286 624 286 626Q284 630 284 631Q274 637 213 637H193Q184 643 189 662Q193 677 195 680T209 683H213Q285 681 359 681Q481 681 487 683H497Q504 676 504 672T501 655T494 639Q491 637 471 637Q440 637 407 634Q393 631 388 623Q381 609 337 432Q326 385 315 341Q245 65 245 59Q245 52 255 50T307 46H339Q345 38 345 37T342 19Q338 6 332 0H316Q279 2 179 2Q143 2 113 2T65 2T43 1Z"></path></g></svg></span> and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-17-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.471ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 633.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M447 625Q447 637 354 637H329Q323 642 323 645T325 664Q329 677 335 683H352Q393 681 498 681Q541 681 568 681T605 682T619 682Q633 682 633 672Q633 670 630 658Q626 642 623 640T604 637Q552 637 545 623Q541 610 483 376Q420 128 419 127Q397 64 333 21T195 -22Q137 -22 97 8T57 88Q57 130 80 152T132 174Q177 174 182 130Q182 98 164 80T123 56Q115 54 115 53T122 44Q148 15 197 15Q235 15 271 47T324 130Q328 142 387 380T447 625Z"></path></g></svg></span> merged (if they belong to different communities).</p></li>
+<li><p><span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-18-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="8.969ex" height="2.509ex" style="vertical-align: -0.671ex;" viewBox="0 -791.3 3861.8 1080.4" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M56 341Q56 499 157 602T388 705Q521 705 621 601T722 341Q722 275 703 218T660 127T603 63T555 25T525 9Q524 8 524 8H523Q524 5 526 -1T537 -21T555 -47T581 -67T615 -76Q653 -76 678 -56T706 -3Q707 10 716 10Q721 10 728 5L727 -13Q727 -88 697 -140T606 -193Q563 -193 538 -166T498 -83Q483 -23 483 -8L471 -11Q459 -14 435 -18T388 -22Q254 -22 155 81T56 341ZM607 339Q607 429 586 496T531 598T461 649T390 665T318 649T248 598T192 496T170 339Q170 143 277 57Q301 39 305 39L304 42Q304 44 304 46Q301 53 301 68Q301 101 325 128T391 155Q454 155 495 70L501 58Q549 91 578 164Q607 234 607 339ZM385 18Q404 18 425 23T459 33T472 40Q471 47 468 57T449 88T412 115Q398 117 386 117Q367 117 353 102T338 67Q338 48 351 33T385 18Z"></path><path stroke-width="1" d="M328 0Q307 3 180 3T32 0H21V46H43Q92 46 106 49T126 60Q128 63 128 342Q128 620 126 623Q122 628 118 630T96 635T43 637H21V683H32Q53 680 180 680T328 683H339V637H317Q268 637 254 634T234 623Q232 620 232 342Q232 63 234 60Q238 55 242 53T264 48T317 46H339V0H328Z" transform="translate(1028,0)"></path><g transform="translate(1945,0)"><path stroke-width="1" d="M1218 514Q1218 525 1234 525Q1239 525 1242 525T1247 525T1251 524T1253 523T1255 520T1257 517T1260 512Q1297 438 1358 381T1469 300T1565 263Q1582 258 1582 250T1573 239T1536 228T1478 204Q1334 134 1260 -12Q1256 -21 1253 -22T1238 -24Q1218 -24 1218 -17Q1218 -13 1223 0Q1258 69 1309 123L1319 133H70Q56 140 56 153Q56 168 72 173H1363L1373 181Q1412 211 1490 250Q1489 251 1472 259T1427 283T1373 319L1363 327H710L707 328L390 327H72Q56 332 56 347Q56 360 70 367H1319L1309 377Q1276 412 1247 458T1218 514Z"></path></g></g></svg></span> print the size of the community to which person <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-19-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.172ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 504.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M43 1Q26 1 26 10Q26 12 29 24Q34 43 39 45Q42 46 54 46H60Q120 46 136 53Q137 53 138 54Q143 56 149 77T198 273Q210 318 216 344Q286 624 286 626Q284 630 284 631Q274 637 213 637H193Q184 643 189 662Q193 677 195 680T209 683H213Q285 681 359 681Q481 681 487 683H497Q504 676 504 672T501 655T494 639Q491 637 471 637Q440 637 407 634Q393 631 388 623Q381 609 337 432Q326 385 315 341Q245 65 245 59Q245 52 255 50T307 46H339Q345 38 345 37T342 19Q338 6 332 0H316Q279 2 179 2Q143 2 113 2T65 2T43 1Z"></path></g></svg></span> belongs. </p></li>
+</ol></div></div></div><div class="challenge_input_format"><div class="msB challenge_input_format_title"><p><strong>Input Format</strong></p></div><div class="msB challenge_input_format_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><p>The first line of input will contain integers <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-1-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="2.064ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 888.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></g></svg></span> and <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-2-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.838ex" height="2.509ex" style="vertical-align: -0.671ex;" viewBox="0 -791.3 791.5 1080.4" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g></svg></span>, i.e. the number of people and the number of queries.<br>
+The next <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-3-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.838ex" height="2.509ex" style="vertical-align: -0.671ex;" viewBox="0 -791.3 791.5 1080.4" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g></svg></span> lines will contain the queries.<br></p>
+
+<p><strong>Constraints :</strong><br>
+<span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-4-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="12.802ex" height="2.843ex" style="vertical-align: -0.505ex;" viewBox="0 -1006.6 5512 1223.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><g transform="translate(778,0)"><path stroke-width="1" d="M674 636Q682 636 688 630T694 615T687 601Q686 600 417 472L151 346L399 228Q687 92 691 87Q694 81 694 76Q694 58 676 56H670L382 192Q92 329 90 331Q83 336 83 348Q84 359 96 365Q104 369 382 500T665 634Q669 636 674 636ZM84 -118Q84 -108 99 -98H678Q694 -104 694 -118Q694 -130 679 -138H98Q84 -131 84 -118Z"></path></g><g transform="translate(1834,0)"><path stroke-width="1" d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></g><g transform="translate(3000,0)"><path stroke-width="1" d="M674 636Q682 636 688 630T694 615T687 601Q686 600 417 472L151 346L399 228Q687 92 691 87Q694 81 694 76Q694 58 676 56H670L382 192Q92 329 90 331Q83 336 83 348Q84 359 96 365Q104 369 382 500T665 634Q669 636 674 636ZM84 -118Q84 -108 99 -98H678Q694 -104 694 -118Q694 -130 679 -138H98Q84 -131 84 -118Z"></path></g><g transform="translate(4057,0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path stroke-width="1" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path><g transform="translate(1001,393)"><path stroke-width="1" transform="scale(0.707)" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path></g></g></g></svg></span><br>
+<span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-5-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="16.58ex" height="3.009ex" style="vertical-align: -0.671ex;" viewBox="0 -1006.6 7138.5 1295.7" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><g transform="translate(778,0)"><path stroke-width="1" d="M674 636Q682 636 688 630T694 615T687 601Q686 600 417 472L151 346L399 228Q687 92 691 87Q694 81 694 76Q694 58 676 56H670L382 192Q92 329 90 331Q83 336 83 348Q84 359 96 365Q104 369 382 500T665 634Q669 636 674 636ZM84 -118Q84 -108 99 -98H678Q694 -104 694 -118Q694 -130 679 -138H98Q84 -131 84 -118Z"></path></g><g transform="translate(1834,0)"><path stroke-width="1" d="M399 -80Q399 -47 400 -30T402 -11V-7L387 -11Q341 -22 303 -22Q208 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435Q740 255 592 107Q529 47 461 16L444 8V3Q444 2 449 -24T470 -66T516 -82Q551 -82 583 -60T625 -3Q631 11 638 11Q647 11 649 2Q649 -6 639 -34T611 -100T557 -165T481 -194Q399 -194 399 -87V-80ZM636 468Q636 523 621 564T580 625T530 655T477 665Q429 665 379 640Q277 591 215 464T153 216Q153 110 207 59Q231 38 236 38V46Q236 86 269 120T347 155Q372 155 390 144T417 114T429 82T435 55L448 64Q512 108 557 185T619 334T636 468ZM314 18Q362 18 404 39L403 49Q399 104 366 115Q354 117 347 117Q344 117 341 117T337 118Q317 118 296 98T274 52Q274 18 314 18Z"></path></g><g transform="translate(2903,0)"><path stroke-width="1" d="M674 636Q682 636 688 630T694 615T687 601Q686 600 417 472L151 346L399 228Q687 92 691 87Q694 81 694 76Q694 58 676 56H670L382 192Q92 329 90 331Q83 336 83 348Q84 359 96 365Q104 369 382 500T665 634Q669 636 674 636ZM84 -118Q84 -108 99 -98H678Q694 -104 694 -118Q694 -130 679 -138H98Q84 -131 84 -118Z"></path></g><g transform="translate(3960,0)"><path stroke-width="1" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g transform="translate(4682,0)"><path stroke-width="1" d="M630 29Q630 9 609 9Q604 9 587 25T493 118L389 222L284 117Q178 13 175 11Q171 9 168 9Q160 9 154 15T147 29Q147 36 161 51T255 146L359 250L255 354Q174 435 161 449T147 471Q147 480 153 485T168 490Q173 490 175 489Q178 487 284 383L389 278L493 382Q570 459 587 475T609 491Q630 491 630 471Q630 464 620 453T522 355L418 250L522 145Q606 61 618 48T630 29Z"></path></g><g transform="translate(5683,0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path stroke-width="1" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path><g transform="translate(1001,393)"><path stroke-width="1" transform="scale(0.707)" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path></g></g></g></svg></span><br></p></div></div></div><div class="challenge_output_format"><div class="msB challenge_output_format_title"><p><strong>Output Format</strong></p></div><div class="msB challenge_output_format_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><p>The output of the queries.</p></div></div></div><div class="challenge_sample_input"><div class="msB challenge_sample_input_title"><p><strong>Sample Input</strong></p></div><div class="msB challenge_sample_input_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><pre><code>3 6
+Q 1
+M 1 2
+Q 2
+M 2 3
+Q 3
+Q 2
+</code></pre></div></div></div><div class="challenge_sample_output"><div class="msB challenge_sample_output_title"><p><strong>Sample Output</strong></p></div><div class="msB challenge_sample_output_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><pre><code>1
+2
+3
+3
+</code></pre></div></div></div><div class="challenge_explanation"><div class="msB challenge_explanation_title"><p><strong>Explanation</strong></p></div><div class="msB challenge_explanation_body"><div class="hackdown-content"><style id="MathJax_SVG_styles">.MathJax_SVG_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax_SVG .MJX-monospace {font-family: monospace}
+.MathJax_SVG .MJX-sans-serif {font-family: sans-serif}
+.MathJax_SVG {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax_SVG * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.mjx-svg-href {fill: blue; stroke: blue}
+</style><svg style="display: none;"><defs id="MathJax_SVG_glyphs"></defs></svg><p>Initial size of each of the community is <span style="font-size: 100%; display: inline-block;" class="MathJax_SVG" id="MathJax-Element-1-Frame"><svg xlink="http://www.w3.org/1999/xlink" width="1.162ex" height="2.176ex" style="vertical-align: -0.338ex;" viewBox="0 -791.3 500.5 936.9" role="img" focusable="false"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><path stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></svg></span>.</p></div></div></div></div></div><aside class="span-sm-4 pull-right fullscreen-hide challenge-sidebar" data-reactid="171"><div class="challenge-sidebar-container" data-reactid="172"><div class="social-share-wrap-2" data-reactid="173"><div class="clearfix" data-reactid="174"><div class="social-share-view-wrap social-buttons mjT pull-left" data-reactid="175"><a class="social-btn cursor facebook-share-btn txt-white" data-reactid="176"><i class="icon-facebook" data-reactid="177"></i></a><a class="social-btn cursor twitter-share-btn txt-white txt-white" data-reactid="178"><i class="icon-twitter" data-reactid="179"></i></a><a class="social-btn cursor linkedin-share-btn txt-white" data-reactid="180"><i class="icon-linkedin" data-reactid="181"></i></a></div></div></div><div class="sidebar_problem_difficulty" data-reactid="182"><div data-reactid="183"><p class="bold zeta" data-reactid="184">Submissions:</p><a class="btn btn-text backbone" data-analytics="ChallengeViewHackerCount" data-attr1="merging-communities" href="https://www.hackerrank.com/challenges/merging-communities/leaderboard" data-reactid="185">4638</a></div><div data-reactid="186"><p class="bold zeta" data-reactid="187">Max Score:</p><p class="sidebar_att" data-reactid="188">50</p></div><div data-reactid="189"><p class="bold zeta" data-reactid="190">Difficulty: </p><p class="sidebar_att" data-reactid="191">Hard</p></div></div><div class="challenge-rating rating" data-reactid="192"><p class="bold zeta" data-reactid="193">Rate This Challenge: </p><div class="rating" data-reactid="194"><i class="icon cursor icon-star-empty" data-analytics="RatedChallenge" data-attr7="1" data-reactid="195"></i><i class="icon cursor icon-star-empty" data-analytics="RatedChallenge" data-attr7="2" data-reactid="196"></i><i class="icon cursor icon-star-empty" data-analytics="RatedChallenge" data-attr7="3" data-reactid="197"></i><i class="icon cursor icon-star-empty" data-analytics="RatedChallenge" data-attr7="4" data-reactid="198"></i><i class="icon cursor icon-star-empty" data-analytics="RatedChallenge" data-attr7="5" data-reactid="199"></i></div></div><div data-reactid="200"><div id="sidebar-more-options" class="hide" data-reactid="201"><div class="mlB mlT" data-reactid="202"><a class="challenge-sidebar-anchor pointer link-gray" target="_blank" id="pdf-link" data-analytics="ChallengeViewSidebarPDF" data-attr1="merging-communities" href="https://www.hackerrank.com/rest/contests/master/challenges/merging-communities/download_pdf?language=Englishdownload_pdf?language=English" data-reactid="203"><i class="icon-download" data-reactid="204"></i><!-- react-text: 205 -->Download problem statement<!-- /react-text --></a></div><div class="mlB" data-reactid="206"><a class="challenge-sidebar-anchor pointer link-gray" target="_blank" id="test-cases-link" data-analytics="ChallengeViewSidebarTestCases" data-attr1="merging-communities" href="https://www.hackerrank.com/rest/contests/master/challenges/merging-communities/download_pdf?language=English/download_testcases" data-reactid="207"><i class="icon-download" data-reactid="208"></i><!-- react-text: 209 -->Download sample test cases<!-- /react-text --></a></div><div class="fullscreen-hide" data-reactid="210"><a class="challenge-sidebar-anchor link link-gray" data-analytics="ChallengeViewSuggestEdit" data-attr1="merging-communities" data-reactid="211"><div data-reactid="212"><i class="icon-edit" data-reactid="213"></i></div><!-- react-text: 214 -->Suggest Edits<!-- /react-text --></a></div><div class="language-selector pmT" data-reactid="215"><div class="psT hide small color-alt-grey" id="preference-msg" data-reactid="216"><a class="language-preference btn btn-small msB" data-reactid="217">Set as default</a><br data-reactid="218"><p class="mjB" data-reactid="219">You can always change back later.</p></div></div></div><div class="msB" data-reactid="220"><a id="sidebar-more-button" class="challenge-sidebar-anchor pointer" data-reactid="221">More</a></div></div></div></aside></div></div></div></div><div class="right-pane split" data-reactid="222"><div class="challenge-request" data-reactid="223"><div class="challenge-input codeeditor-wrapper container fs-container mlB" data-reactid="224"><div class="codeeditor-view" data-reactid="225"><div id="codeshell-wrapper" data-reactid="226">
+<div class="clearfix grey-header fixed-hand0 cap plL plR psT psB" style="position: relative;">
+  <div class="msT pull-left"><em id="status-text"></em></div>
+  
+  <div class="fork-dialog cs-dialog hide">
+    <div class="header">Fork <span class="version-seq"></span>
+        <i data-analytics="CodeShellForkCode" data-attr1="Cancel" class="icon--single icon-cancel-small close-fork-dialog cursor-pointer pull-right psR"></i>
+    </div>
+    <div class="body">
+      <p class="grey-msg">past buffers are marked read only, you wont be able to edit your current buffer without forking it</p>
+      <div class="m msT">
+        <button data-analytics="CodeShellForkCode" data-attr1="ForkCurrentBuffer" class="btn btn-primary fork-version" data-action="fork">Fork <span class="version-seq"></span></button>&nbsp;&nbsp;
+        <button data-analytics="CodeShellForkCode" data-attr1="CreateNewBuffer" class="btn btn-primary fork-version" data-action="orphan">Create New Buffer</button>
+      </div>
+    </div>
+  </div>
+  <div class="fork-limit-reached-dialog cs-dialog hide">
+    <div class="header">Fork Limit Reached</div>
+    <div class="body">
+      <p class="grey-msg">You can’t create more than 20 buffers, please delete one of your old bufferes to create a new buffer.</p>
+      <div class="m msT">
+        <button class="btn close-fork-limit-reached-dialog">OK</button>&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class="delete-version-dialog cs-dialog hide">
+    <div class="header">Delete <span class="version-seq"></span></div>
+    <div class="body">
+      <p class="grey-msg">Are you sure you want to delete <strong><span class="version-seq"></span></strong>? This action can’t be undone.</p>
+      <div class="m msT">
+        <button class="btn delete-version-button">Yes</button>&nbsp;&nbsp;
+      </div>
+    </div>
+  </div>
+  <div class="pull-left no-select">
+    <p style="padding-top: 8px;">
+      <strong class="version-name">Current Buffer</strong>
+      <span class="gray-text version-meta">(saved locally, editable)</span>
+      &nbsp;&nbsp;
+      <a data-analytics="CodeShellShowForkOptions" class="fork-this-version"><i class="icon--grey cursor icon-flow-branch"></i></a>
+      <a data-analytics="CodeShellShowVersionTimeline" class="show-version-timeline"><i class="icon--grey cursor icon-back-in-time"></i></a>
+      <a class="delete-active-version hide"><i class="icon--grey cursor icon-trash"></i></a>
+    </p>
+  </div>
+  
+  
+  <div class="pull-right">
+    
+    <div class="inline large lines inverse pull-right msT msL">
+      
+      
+      <a class="restorefullscreen force-hide active-link no-select">
+          <i class="icon-resize-small-alt icon--grey no-select"></i></a>
+      <a class="fullscreen active-link no-select" data-analytics="Switch to fullscreen"><i class="icon-resize-full-alt icon--grey no-select"></i></a>
+      
+      
+      <a class="hide" style="display:none;"></a>
+      <div style="position:relative; margin-left: 0px;">
+        <a class="cursor no-select" data-analytics="CodeShellShowPreferences" id="show-preferences"><i class="icon-cog icon--grey no-select"></i></a>
+        <div id="pref-pane" style="position: absolute;right: -0.5em;top: 2em;z-index: 9;background: #fff;border: 1px solid #ddd;border-radius: 5px;padding: 10px;  width: 20em; display: none;">
+          <div style="position: absolute;width: 0;right: 0.8em;height: 0;border-left: 7px solid transparent;border-right: 7px solid transparent;border-bottom: 7px solid #ddd;top: -0.4em;"></div>
+          
+            <div class="formgroup horizontal">
+              <label class="span5">Editor Mode</label>
+              <div class="inline">
+                <div class="btn-group no-select">
+                  <a data-analytics="CodeShellEditorMode" data-attr1="Emacs" class="cursor emacs btn btn-small btn-white editor-mode-button no-select" data-editor="emacs">Emacs</a>
+                  <a data-analytics="CodeShellEditorMode" data-attr1="Normal" class="cursor default btn btn-small btn-white editor-mode-button no-select btn-primary" data-editor="default">Normal</a>
+                  <a data-analytics="CodeShellEditorMode" data-attr1="Vim" class="cursor vim btn btn-small btn-white editor-mode-button no-select" data-editor="vim">Vim</a>
+                </div>
+              </div>
+            </div>
+          
+          
+            <div class="formgroup horizontal">
+              <label class="span5">Editor Theme</label>
+              <div class="inline">
+                <div class="btn-group no-select">
+                  <a data-analytics="CodeShellEditorTheme" data-attr1="Light" class="cursor light btn btn-small btn-white editor-theme-button no-select btn-primary" data-editor="light">Light</a>
+                  <a data-analytics="CodeShellEditorTheme" data-attr1="Dark" class="cursor dark btn btn-small btn-white editor-theme-button no-select" data-editor="dark">Dark</a>
+                </div>
+              </div>
+            </div>
+          
+          <div class="formgroup horizontal">
+            <label class="span5">Tab Spaces</label>
+            <div class="inline">
+              <div class="btn-group no-select">
+                <a data-analytics="CodeShellEditorSpace" data-attr1="2" class="cursor 2space btn btn-small btn-white editor-tabspace-button no-select" data-editor="2">2 spaces</a>
+                <a data-analytics="CodeShellEditorSpace" data-attr1="4" class="cursor 4space  btn btn-small btn-white editor-tabspace-button no-select btn-primary" data-editor="4">4 spaces</a>
+                <a data-analytics="CodeShellEditorSpace" data-attr1="8" class="cursor 8space btn btn-small btn-white editor-tabspace-button no-select" data-editor="8">8 spaces</a>
+              </div>
+            </div>
+          </div>
+          
+            <div class="formgroup horizontal">
+              <label class="span5">Intellisense</label>
+              <div class="inline">
+                <div class="btn-group no-select">
+                  <a data-analytics="CodeShellAutoComplete" data-attr1="Enable" class="cursor emacs btn btn-small btn-white editor-autocomplete-button no-select btn-primary" data-editor="true">Enable</a>
+                  <a data-analytics="CodeShellAutoComplete" data-attr1="Disable" class="cursor default btn btn-small btn-white editor-autocomplete-button no-select" data-editor="false">Disable</a>
+                </div>
+              </div>
+            </div>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="pull-right">
+      <div class="dummy-lang-container hide"></div>
+      <div class="select2-container" id="s2id_select-lang"><a href="javascript:void(0)" onclick="return false;" class="select2-choice" tabindex="-1">   <span>C#</span><abbr class="select2-search-choice-close"></abbr>   <div><b></b></div></a><input class="select2-focusser select2-offscreen" id="s2id_autogen1" type="text"><div class="select2-drop select2-display-none">   <div class="select2-search select2-search-hidden select2-offscreen">       <input autocomplete="off" autocorrect="off" autocapitilize="off" spellcheck="false" class="select2-input" type="text">   </div>   <ul class="select2-results">   </ul></div></div><input id="select-lang" tabindex="-1" class="select2-offscreen" value="csharp" type="hidden">
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+
+<div class="version-timeline">
+  <div class="version-timeline-inner">
+    <div class="cross-line"></div>
+    <div class="start-slab pull-left"></div>
+    
+    <div class="current-version-ball green-bkg pull-left cursor"></div>
+  </div>
+</div>
+<div class="hr_tour-code-solution movable-hand flex-row" style="display: flex;">
+  
+  <div class="code-checker">
+    <div id="notification-message" class="clearfix grey-header cap  hidden "> </div>
+    <div class="code-editors" style="max-height: 410px;">
+      
+       <div class="loading-mode" style="display: none;">Loading Editor... </div> 
+      <div class="code-body" style="display: block;">
+        
+       <textarea id="codeview" style="width: 100%; display: none;"></textarea><div class="CodeMirror cm-s-default CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 5px; left: 44px;"><textarea style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; outline: medium none;" autocorrect="off" autocapitalize="none" spellcheck="false" tabindex="0" wrap="off"></textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" draggable="true"><div class="CodeMirror-sizer" style="margin-left: 39px; margin-bottom: -17px; border-right-width: 13px; min-height: 170px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div style="position: relative; outline: medium none;" role="presentation"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors"><div class="CodeMirror-cursor" style="left: 4px; top: 0px; height: 20.2833px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation" style=""><div style="position: relative;" class="CodeMirror-activeline"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -39px; width: 39px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation"><span class="cm-keyword">using</span> <span class="cm-variable">System</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation"><span class="cm-keyword">using</span> <span class="cm-variable">System</span>.<span class="cm-variable">Collections</span>.<span class="cm-variable">Generic</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation"><span class="cm-keyword">using</span> <span class="cm-variable">System</span>.<span class="cm-variable">IO</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">4</div><div class="CodeMirror-gutter-elt" style="left: 29px; width: 9px;"><div class="CodeMirror-foldgutter-open CodeMirror-guttermarker-subtle"></div></div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation"><span class="cm-keyword">class</span> <span class="cm-def">Solution</span> {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">5</div><div class="CodeMirror-gutter-elt" style="left: 29px; width: 9px;"><div class="CodeMirror-foldgutter-open CodeMirror-guttermarker-subtle"></div></div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation">    <span class="cm-keyword">static</span> <span class="cm-keyword">void</span> <span class="cm-variable">Main</span>(<span class="cm-variable-3">String</span>[] <span class="cm-variable">args</span>) {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">6</div><div class="CodeMirror-gutter-elt" style="left: 29px; width: 9px;"><div class="CodeMirror-foldgutter-open CodeMirror-guttermarker-subtle"></div></div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation">        <span class="cm-comment">/* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution */</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation">    }</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -39px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation">}</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 13px; width: 1px; border-bottom: 0px solid transparent; top: 170px;"></div><div class="CodeMirror-gutters" style="height: 183px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 29px;"></div><div class="CodeMirror-gutter CodeMirror-foldgutter"></div></div></div></div>
+       </div>
+      
+      <div class="clearfix"></div>
+    </div>
+    <div id="codeeditor-statusbar" class="clearfix psA codeeditor_statusbar">
+      <span id="statusbar-mode"></span>
+      <div class="pull-right">
+        <span id="statusbar-line">Line: 1</span>
+        <span id="statusbar-col">Col: 1</span>
+        <span id="statusbar-count"></span>
+      </div>
+    </div>
+  </div>
+</div><div class="clearfix pmR pmL pmB plT fixed-hand1 codeshell-footer">
+  <div class="pull-right">
+    
+    
+    <button class="btn bb-compile msR " data-analytics="Compile and Test">Run Code</button>
+    
+    
+    <button class="btn btn-primary bb-submit ans-submit" data-analytics="Submit Code">Submit Code</button>
+    
+    
+  </div>
+  <div class="pull-left inline">
+      
+      <button class="btn btn-text upload_file mlR" data-analytics="Upload File" type="button"><i class="icon-upload"></i>Upload Code as File</button>
+      
+      
+      
+      <div class="mmT">
+          <label for="customtestcase"><div class="custom-checkbox-v3"><input id="customtestcase" type="checkbox"><span></span></div><span class="lmT msL">Test against custom input</span></label>
+          
+          <textarea rows="5" id="custominput" style="display:none"></textarea>
+          
+      </div>
+      
+  </div>
+  
+</div></div><div id="submission-message" data-reactid="229"></div><!-- react-empty: 230 --><!-- react-empty: 231 --><!-- react-empty: 232 --><!-- react-empty: 233 --><div class="__react_component_tooltip place-top type-dark " data-id="tooltip" data-reactid="234"></div></div></div></div><div class="challenge-response container fs-container" data-reactid="235"></div></div></div></div></div></section></div><footer class="page_footer" data-reactid="236"><div data-reactid="237"><div class="text-center" data-reactid="238"><!-- react-text: 239 -->Join us on IRC at <!-- /react-text --><a target="_blank" class="page_footer-IRC" href="http://webchat.freenode.net/?channels=hackerrank" data-analytics="FooterLinkIRC" data-reactid="240">#hackerrank</a><!-- react-text: 241 --> on freenode for hugs or bugs.<!-- /react-text --><br data-reactid="242"><p style="font-size:14px;margin-top:5px;margin-bottom:0px;" data-reactid="243"><span class="internal-links" data-reactid="244"><a target="_blank" href="https://www.hackerrank.com/calendar" class="calendar" data-analytics="FooterLinkCalendar" data-reactid="245">Contest Calendar</a><span data-reactid="246"> | </span><a target="_blank" href="https://blog.hackerrank.com/" class="blog" data-analytics="FooterLinkBlog" data-reactid="247">Blog</a><span data-reactid="248"> | </span><a target="_blank" href="https://www.hackerrank.com/scoring" class="scoring" data-analytics="FooterLinkScoring" data-reactid="249">Scoring</a><span data-reactid="250"> | </span><a target="_blank" href="https://www.hackerrank.com/environment" class="environment" data-analytics="FooterLinkEnvironment" data-reactid="251">Environment</a><span data-reactid="252"> | </span><a target="_blank" href="https://www.hackerrank.com/faq" class="faq" data-analytics="FooterLinkFAQ" data-reactid="253">FAQ</a><span data-reactid="254"> | </span></span><a target="_blank" href="https://www.hackerrank.com/aboutus" data-analytics="FooterLinkAboutUs" data-reactid="255">About Us</a><span data-reactid="256"> | </span><a target="_blank" href="https://www.hackerrank.com/support" data-analytics="FooterLinkSupport" data-reactid="257">Support</a><span data-reactid="258"> | </span><a target="_blank" href="https://www.hackerrank.com/careers" data-analytics="FooterLinkCareers" data-reactid="259">Careers</a><span data-reactid="260"> | </span><a target="_blank" href="https://www.hackerrank.com/terms-of-service" data-analytics="FooterLinkTermsOfService" data-reactid="261">Terms Of Service</a><span data-reactid="262"> | </span><a target="_blank" href="https://www.hackerrank.com/privacy" data-analytics="FooterLinkPrivacyPolicy" data-reactid="263">Privacy Policy</a><span data-reactid="264"> | </span><a href="https://www.hackerrank.com/support/feature" target="_blank" class="featureRequestButton" data-analytics="FooterLinkFeatureRequest" data-reactid="265">Request a Feature</a></p></div></div></footer><!-- react-empty: 266 --></div></div></div></div><!--Required to handle event bubbling of click in ios safari -->
+
+  <!-- Vendor scripts -->
+  
+    <script>
+      /*** webpack menifest data ***/
+      var webpackChunkManifest = {"0":"hackerrank_r_community-c38e5ae53955c6b8a5e1.js","1":"hackerrank_r_work-d7286679c438dfd1bcd2.js","2":"hackerrank_r_uikit-46073def5ff3d0258515.js","3":"hackerrank_r_app-f0db1175fb3dfb803a1a.js","4":"hackerrank_r_jobs-e99886443fc6bc610f57.js","5":"hackerrank_r_charts-b761ab8dd82e799437b4.js","6":"hackerrank_r_calendar-64a6b9027974c9be10a6.js","7":"hackerrank_r_testsettings-755b268992e7bebc2bb7.js","8":"hackerrank_r_testinsights-d0bb0a8fb5dbdc697d9d.js","9":"hackerrank_r_testquestions-22001f0ad8ff474bb303.js","10":"hackerrank_r_testinvite-a55ef012f75798e12f67.js","11":"hackerrank_r_challenge-6cf43813f481688b1d66.js","12":"hackerrank_r_profile-79137ba4cbed64f38f2d.js","13":"hackerrank_r_singletest-180d58b749542875a8ee.js","14":"hackerrank_r_keyboardjs-507f9cd4855b5f099e97.js","15":"hackerrank_r_codeshell_lib-192438dbaf4837e1e44c.js"};
+      var webpackManifest = {"hackerrank_r_app.css":"hackerrank_r_app-b5d2539c36.css","hackerrank_r_community.css":"hackerrank_r_community-fdeea7d00d.css","hackerrank_r_uikit.css":"hackerrank_r_uikit-7377c638d9.css","hackerrank_r_work.css":"hackerrank_r_work-5246b5b70d.css","hackerrank_r_app.js":"hackerrank_r_app-f0db1175fb3dfb803a1a.js","hackerrank_r_calendar.js":"hackerrank_r_calendar-64a6b9027974c9be10a6.js","hackerrank_r_challenge.js":"hackerrank_r_challenge-6cf43813f481688b1d66.js","hackerrank_r_charts.js":"hackerrank_r_charts-b761ab8dd82e799437b4.js","hackerrank_r_codeshell_lib.js":"hackerrank_r_codeshell_lib-192438dbaf4837e1e44c.js","hackerrank_r_common.js":"hackerrank_r_common-be6177629d9748929d6c.js","hackerrank_r_community.js":"hackerrank_r_community-c38e5ae53955c6b8a5e1.js","hackerrank_r_jobs.js":"hackerrank_r_jobs-e99886443fc6bc610f57.js","hackerrank_r_keyboardjs.js":"hackerrank_r_keyboardjs-507f9cd4855b5f099e97.js","hackerrank_r_profile.js":"hackerrank_r_profile-79137ba4cbed64f38f2d.js","hackerrank_r_singletest.js":"hackerrank_r_singletest-180d58b749542875a8ee.js","hackerrank_r_testinsights.js":"hackerrank_r_testinsights-d0bb0a8fb5dbdc697d9d.js","hackerrank_r_testinvite.js":"hackerrank_r_testinvite-a55ef012f75798e12f67.js","hackerrank_r_testquestions.js":"hackerrank_r_testquestions-22001f0ad8ff474bb303.js","hackerrank_r_testsettings.js":"hackerrank_r_testsettings-755b268992e7bebc2bb7.js","hackerrank_r_uikit.js":"hackerrank_r_uikit-46073def5ff3d0258515.js","hackerrank_r_work.js":"hackerrank_r_work-d7286679c438dfd1bcd2.js","hackerrank_r_vendor.js":"hackerrank_r_vendor-4966df136c.js"};
+    </script>
+  
+
+  <script>
+    //HR namespace
+    var HR = {};
+    HR.development = false;
+    HR.assetPath = 'https://hrcdn.net/hackerrank/assets/';
+    HR.pageLoadTime = Date.now();
+    HR.productNamespace = 'hackerrank';
+    HR.production = true;
+    HR.devServer = false;
+    HR.isIsomorphic = true;
+  </script>
+
+  <!-- Vendor scripts -->
+  
+    <script src="Merging%20Communities_files/hackerrank_r_vendor-4966df136c.js"></script>
+  
+
+  <!-- Dev scripts -->
+  
+    <script src="Merging%20Communities_files/sockjs.js"></script>
+  
+
+  
+  <script src="Merging%20Communities_files/hackerrank_r_common-be6177629d9748929d6c.js"></script>
+  <script src="Merging%20Communities_files/hackerrank_r_app-f0db1175fb3dfb803a1a.js"></script>
+  <!-- google analytics tracking -->
+<script>
+  var _gaq = _gaq || [];
+  
+  _gaq.push(['candidate_company._setAccount', 'UA-45092266-1']);
+  _gaq.push(['candidate_company._trackPageview']);
+  _gaq.push(['_setCampSourceKey', 'utm_source']);
+  _gaq.push(['_setCampMediumKey', 'utm_medium']);
+  _gaq.push(['_setCampContentKey', 'utm_keyword']);
+  _gaq.push(['_setCampTermKey', 'utm_keyword']);
+  _gaq.push(['_setCampNameKey', 'utm_campaign']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  
+</script>
+<!-- Pending candidate site custom GA code -->
+<!-- google analytics tracking end-->
+
+<!-- mixpanel tracking -->
+<script type="text/javascript">
+  
+    (function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+    mixpanel.init("bcb75af88bccc92724ac5fd79271e1ff");
+
+    
+      
+        mixpanel.init("86cf4681911d3ff600208fdc823c5ff5", {}, "jobs_test");
+      
+      mixpanel.identify(Cookies.get("hackerrank_mixpanel_token"));
+    
+  
+</script>
+<!-- mixpanel tracking end-->
+
+<!-- HeapAnalytics tracking start -->
+<script type="text/javascript">
+  
+    var heap = [];
+    var attrs = ["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"];
+    for (var attribute in attrs) {
+      heap[attrs[attribute]] = function () {};
+    }
+  
+</script>
+<!-- HeapAnalytics tracking end -->
+
+<!-- Marketo to be added later -->
+
+<!-- Olark start -->
+
+<!-- Olark end -->
+
+<!-- Bizible -->
+
+<!-- HR metrics init -->
+<script type="text/javascript">
+
+  (function() {
+    hr_metrics.init({
+      product: 'hackerrank',
+      use_cookie: true,
+      uid_cookie_key: 'hackerrank_mixpanel_token',
+      uid_token_cookie_key: 'metrics_user_identifier',
+      session_cookie_key: 'session_id',
+      metrics_endpoint:  'https://metrics.hackerrank.com/metrics' 
+    });
+  })();
+
+
+
+
+</script>
+
+<!-- hrutm_params -->
+
+<!-- HR metrics extension pack -->
+<script type="text/javascript">
+
+  
+    if (('performance' in window) && ('timing' in window.performance)) {
+      $(window).on("load", function() {
+        setTimeout(function(){
+          var timing = window.performance.timing;
+          var obj = {
+            referring_url: window.location.pathname,
+            fullLoadTime: timing.loadEventEnd - timing.navigationStart,
+            // Total time from req start to load
+            loadTime: timing.loadEventEnd - timing.fetchStart,
+            // Time spent constructing the DOM tree
+            domReadyTime: timing.domComplete - timing.domInteractive,
+            // Time consumed preparing the new page
+            readyStart: timing.fetchStart - timing.navigationStart,
+            // Time spent during redirection
+            redirectTime: timing.redirectEnd - timing.redirectStart,
+            // AppCache
+            appcacheTime: timing.domainLookupStart - timing.fetchStart,
+            // Time spent unloading documents
+            unloadEventTime: timing.unloadEventEnd - timing.unloadEventStart,
+            // DNS query time
+            lookupDomainTime: timing.domainLookupEnd - timing.domainLookupStart,
+            // TCP connection time
+            connectTime: timing.connectEnd - timing.connectStart,
+            // Time spent during the request
+            requestTime: timing.responseEnd - timing.requestStart,
+            // Request to completion of the DOM loading
+            initDomTreeTime: timing.domInteractive - timing.responseEnd,
+            // Load event time
+            loadEventTime: timing.loadEventEnd - timing.loadEventStart,
+            // Origin of the request
+            react: true
+          }
+
+          if (('navigation' in window.performance) && ('getEntries' in window.performance)) {
+            obj.navigationType = window.performance.navigation.type;
+            obj.navigationRedirectCount = window.performance.navigation.redirectCount;
+            if (obj.fullLoadTime > 8000) {
+              try {
+                var entries = window.performance.getEntries();
+                if(entries[0].toJSON){
+                  obj.networkRequests = entries.map(function(e) {return e.toJSON();});
+                }
+              } catch (e) {
+                //do nothing
+              }
+            }
+          }
+
+          hr_metrics.app_track('page-load-metrics', obj);
+        }, 1000);
+      });
+    }
+  
+
+  $(window).on("load", function() {
+      var _pathname = document.location.pathname;
+      var cdn_url_switched = Cookies.get("cdn_url_switched");
+      if (cdn_url_switched !== '') {
+        Cookies.remove('cdn_url_switched');
+      }
+      hr_metrics.batch_track('PageLoad', _pathname + document.location.search, {
+          attribute1: _pathname,
+          attribute6: cdn_url_switched,
+          cdn_url: Cookies.get("cdn_url")
+      });
+
+      if (hr_metrics.track_dwell_time) {
+          hr_metrics.track_dwell_time(_pathname);
+          hr_metrics.set_navigation_data();
+      }
+
+      $(window).on('beforeunload', function(){
+
+          var _pathname = document.location.pathname;
+          hr_metrics.batch_track('PageClose', _pathname + document.location.search, {
+              attribute2: _pathname
+          });
+
+          hr_metrics.track_dwell_time(_pathname, true);
+
+          hr_metrics.batch_track_record(true);
+      });
+
+  });
+
+</script>
+
+<!-- Facebook SDK -->
+<!-- Twitter SDK -->
+
+<!-- track button clicks -->
+<script>
+    $(document).on('click', 'a, button, input, select, i, div, span, h5', null, function(e) {
+        var src = e.currentTarget, $src = $(e.currentTarget);
+        if ($src.attr('data-analytics')) {
+            action = 'Click'; data = $src.attr('data-analytics');
+        } else {
+            return;
+        }
+
+        
+          hr_metrics.track(action, data, (function() {
+              var params={};
+              for (var _i=1; _i<=12; ++_i){
+                  var _attr = 'data-attr'+_i;
+                  if ($src.attr(_attr)){
+                    params['attribute'+_i] = $src.attr(_attr);
+                  }
+              }
+              var attributes = src.attributes, attr_length = src.attributes.length;
+              for (var i = 0; i < attr_length; i++){
+                var attribute = attributes[i];
+                if (attribute.name.indexOf('data-attr-') === 0){
+                  param_name = attribute.name.substr('data-attr-'.length);
+                  if (param_name.length > 0) {
+                    params[param_name] = attribute.value;
+                  }
+                }
+              }
+              return params;
+          })());
+        
+
+        
+          // google analytics
+          _gaq.push(['_trackEvent', 'Events' , action, data])
+        
+    });
+
+    $(document).on('AnalyticsEvent', function(e) {
+        action = e.event_type || false;
+        data = e.event_name || false;
+
+        if (!action || !data) {
+          return;
+        }
+
+        params = {}
+        params['attribute1'] = e.event_value || ""
+
+        if (window.HR && window.HR.current_page) {
+          params['attribute2'] = window.HR.current_page;
+        }
+
+        if (window.HR && window.HR.current_contest) {
+          params['attribute3'] = window.HR.current_contest.get('name');
+        }
+
+        
+            hr_metrics.track(action, data, params);
+        
+
+        
+          // google analytics
+          _gaq.push(['_trackEvent', 'Events' , action, data]);
+        
+    });
+
+  </script>
+<!-- track button clicks end-->
+
+<!-- errorception tracking -->
+<script type="text/javascript">
+  
+    (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+     c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+     c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+     _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+     (window,document,"script","50b78854cb2e10773a00002d");
+
+     _errs.meta = {};
+
+      var setErrorceptionHandle = function (user) {
+        if (!user) return;
+
+        if (HR.productNamespace  === 'hackerrank' && !!user.username) {
+          _errs.meta.handle = user.username;
+        } else if (HR.productNamespace === 'hackerrankx' && !!user.email) {
+          _errs.meta.handle = user.email;
+        }
+      }
+
+      setErrorceptionHandle({"contestHistory":{"list":[],"total":0},"badges":[],"scores":{},"rating":[],"submissionHistory":{},"recentChallenges":{"list":[],"cursor":null,"lastPage":true},"recentDiscussions":[],"hackerLevel":{},"threadId":null,"hackerLevelProcessed":false,"id":3323617,"username":"arielplasencia00","country":"Cuba","school":null,"languages":[],"created_at":"2017-11-06T14:44:29.000Z","level":1,"email":"arielplasencia00@gmail.com","fb_uid":null,"gh_uid":null,"li_uid":null,"is_admin":false,"is_support_admin":false,"avatar":"https://d3rpyts3de3lx8.cloudfront.net/hackerrank/assets/gravatar.jpg","website":"","short_bio":null,"username_change_count":null,"name":"Ariel Plasencia","personal_first_name":"Ariel","personal_last_name":"Plasencia","company":null,"local_language":null,"has_avatar_url":false,"hide_account_checklist":null,"spam_user":null,"job_title":"","hacker_iq":70,"errors":{},"confirmed":false,"facebook_allow_opengraph":null,"tsize":null,"is_migrated":false,"facebook_opengraph_access_available":null,"promised_login_time":null,"last_logout_feedback":null,"chat_enabled":true,"tour_done":null,"username_autoset":false,"key_prefix":"3323617-5853c86ea4345b00819c99dc95c523c63de53d76","notifications_url":"https://notify.hackerrank.com/subscribe/3323617-649b6e63291751b09681614d227b36bc3f2c2b9f","resume_url":null,"relocate":null,"phone":null,"phone_number":null,"blog_url":null,"github_url":null,"linkedin_url":null,"college_major":null,"college_major_id":null,"jobs_consent":null,"graduation_year":null,"college_year":null,"college_majors":null,"intro_screen_onboarding_done":true,"related_topics_tour_done":null,"company_challenge_breadcrumb_tour_done":null,"contest_reminders_banner_selected":null,"hometown":null,"employment_title":null,"employment_years":null,"college_roll_no":null,"college_semester":null,"college_course":null,"college_cgpa":null,"city":null,"state":null,"username_change_max":2,"has_viewed_feed_page":null,"address":null,"rewards_alpha_onboarding_done":null,"has_verified_phone_number":false,"country_of_residence":null,"has_seen_ch_full_screen_intro":null,"experience_status":null,"address_line2":null,"address_city":null,"address_state":null,"address_zip":null,"us_work_eligibility":null,"us_work_eligibility_2":null,"is_professional":null,"years_of_experience":null,"us_citizenship":null,"us_citizenship_2":null,"gender":null,"is_campus_rep":false,"hacko_amount":101,"timezone":"America/New_York","us_work_prefs":null,"ca_hide_companies":[],"jobs_joining_date":null,"jobs_prefered_roles":null,"jobs_top_skills":null,"state_id":null,"jobs_complete_us_visa":null,"jobs_us_visa_other":null,"preferred_job_locations":[],"uk_work_eligibility":null,"has_attempted_common_app":false,"stryker_consent":null,"work_ex_reset_flag":null,"job_board_consent":null,"is_organizer":null,"bookmarks_count":0,"jobs_headline":null,"role_number":null,"taxonomy_onboarding_done":null,"hackerlevel_pd_onboarding_done":null,"dashboard_survey_preference":8,"has_solved_a_challenge":false,"status_solve_me_first":null,"source":null,"track_nux_mixpanel":false,"registration_custom_data":null,"secondary_emails":[]});
+
+      if (!HR.isIsomorphic) {
+        $(window).on('initializeTracking', function(e, user) {
+          setErrorceptionHandle(user);
+        })
+      }
+
+      _errs.loadTimestamp = Math.round(Date.now() / 1000);
+      _errs.assetUrl = 'https://hrcdn.net';
+      _errs.cdnUrl = 'hrcdn.net';
+    
+ </script>
+
+<!-- Linkedin Insights -->
+
+
+
+
+<div class="portal-wrapper"><div data-reactroot="" target="body"></div></div><div class="portal-wrapper"><div data-reactroot="" target="body"></div></div><div class="portal-wrapper"><div data-reactroot="" target="body"></div></div><div class="portal-wrapper"><div data-reactroot="" target="body"></div></div></body></html>
