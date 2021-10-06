@@ -8,7 +8,7 @@
 
 ## Sobre este repositorio
 
-El objetivo de este repositorio es presentar algunas estructuras de datos y algoritmos. Para ello proponemos nuestras plantillas bases de las estructuras de datos y algoritmos a utilizar: [AVL](./data structures/AVL.cpp), [heap](./data structures/Heap.cpp), [disjoin set](./data structures/DisjoinSet.cpp), [kmp](./data structures/KMP.cpp), [segment tree](./data structures/SegmentTree.cpp) y [trie](./data structures/Trie.cpp). Además, lo haremos resolviendo interesantes problemas relacionados con la vida cotidiana.
+El objetivo de este repositorio es presentar algunas estructuras de datos y algoritmos. Para ello proponemos nuestras plantillas bases de las estructuras de datos y algoritmos a utilizar: [AVL](./data_structures/AVL.cpp), [heap](./data_structures/Heap.cpp), [disjoin set](./data_structures/DisjoinSet.cpp), [kmp](./data_structures/KMP.cpp), [segment tree](./data_structures/SegmentTree.cpp) y [trie](./data_structures/Trie.cpp). Además, lo haremos resolviendo interesantes problemas relacionados con la vida cotidiana.
 
 ## Sobre los problemas
 
